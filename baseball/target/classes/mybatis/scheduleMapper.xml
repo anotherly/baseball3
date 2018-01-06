@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="scheduleMap">
+
+	<select id="selectList" resultType="schevo">
+		select * from schedule
+	</select>
+	<select id="selectListPlayerStat" resultType="psvo">
+		select * from playerStat
+	</select>
+
+	<select id="selectDetail" resultType="pivo" parameterType="pivo">
+		select * from player where teamId = #{teamId}
+	</select>
+	
+	<select id="gameRegisterView" resultType="schevo" parameterType="schevo">
+		select * from schedule where game_num = #{game_num}
+	</select>
+	
+	<select id="gameRegisterViewPlayerStat" resultType="schevo" parameterType="schevo">
+		select sum(h), sum(hr), sum(sb), sum(so), sum(dp), sum(e) from playerStat where year = #{year} and month = #{month} and day = #{day} and teamId = #{away}
+	</select>
+	
+	
+
+	<insert id="insertOne" parameterType="schevo">
+		insert into schedule
+		(game_num, game_date, game_time
+		, away, home, away_score, home_score,
+		stadium, game_day, home_img, away_img,
+		channel) values
+		(#{game_num}, #{game_date}, #{game_time},
+		#{away}, #{home}, #{away_score},
+		#{home_score}, #{stadium},
+		#{game_day}, #{home_img}, #{away_img},
+		#{channel})
+
+	</insert> 
+	<insert id="insertGameRegister" parameterType="schevo">
+		insert into schedule
+		(year, month, day, yoil,away, home,stadium
+		, game_time) values
+		(#{year}, #{month}, #{day},
+		#{yoil}, #{away}, #{home},
+		#{stadium}, #{game_time})
+
+	</insert> 
+	
+
+</mapper>

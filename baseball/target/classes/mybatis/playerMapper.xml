@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="playerMap">
+
+	<select id="selectList" resultType="pscvo">
+		select * from playerStatCareer where year = 2016 and juPosition LIKE '%p%'
+	</select>
+	<select id="selectTeamList" resultType="pivo">
+		select teamId from player
+	</select>
+
+
+	<select id="selectDetail" resultType="psvo" parameterType="psvo">
+		select * from player where playerId = #{playerId}
+	</select>
+	
+	<select id="selectViewTodayStat" resultType="psvo" parameterType="psvo">
+		select * from playerStat where playerId = #{playerId}
+	</select>
+	
+
+
+	<insert id="insertOneStat" parameterType="psvo"><!-- 오늘개인기록업데이트 -->
+		insert into playerStat
+		(year, month, day, teamId, playerId, playerName, positionToday,
+		g, gs, inn, tc,	po, a, e, dp,
+		ab, r, h, twoBase, thirdBase, hr, rbi, bb, so, sb, cs,
+		w, l, hold, sv, svo, ip, pitcherH, pitcherR,
+		pitcherHr, pitcherBb, pitcherSo, regDate) values
+		(#{year}, #{month}, #{day},
+		 #{teamId}, #{playerId}, #{playerName},
+		 #{positionToday}, #{g}, #{gs},
+		 #{inn}, #{tc}, #{po}, #{a},
+		 #{e}, #{dp}, #{ab}, #{r},
+		 #{h}, #{twoBase}, #{thirdBase},
+		 #{hr}, #{rbi}, #{bb}, #{so},
+		 #{sb}, #{cs}, #{w}, #{l},
+		 #{hold}, #{sv}, #{svo}, #{ip},
+		 #{pitcherH}, #{pitcherR}, #{pitcherHr}, #{pitcherBb},
+		 #{pitcherSo}, sysdate )
+
+	</insert>
+	<update id="fileDelete" parameterType="pivo"> update player set sysFile
+		= null where playerId = #{playerId}
+	</update>
+
+	<delete id="modify" parameterType="pivo"> update player set salary
+		=
+		#{salary, jdbcType=INTEGER} , teamId = #{teamId} , backNum =
+		#{backNum}, playerName =
+		#{playerName},
+		position = #{position}, height =
+		#{height}, weight =
+		#{weight}, country = #{country},
+		pitchingHand =
+		#{pitchingHand},
+		battingHand = #{battingHand}, sysFile = #{sysFile}
+		where playerId = #{playerId}
+	</delete>
+
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mail">
+   
+   <select id="mailList" resultType="zzokzi" parameterType="zzokzi">
+      select * from mail where userid = #{userid,jdbcType=VARCHAR}
+   </select>
+
+   <insert id="sendMail" parameterType="zzokzi">
+      insert into mail (userid,sendid,title,content,maildate)
+      values(#{userid},#{sendid},#{title},#{content},#{maildate})
+   </insert>
+
+   <select id="mailCheck" parameterType="zzokzi" resultType="zzokzi">
+      select * from mail where snedid = #{sendid,jdbcType=VARCHAR} and maildate = #{maildate,jdbcType=VARCHAR}
+   </select>
+
+   <delete id="delete" parameterType="zzokzi">
+      delete from mail where userid=#{userid,jdbcType=VARCHAR} and maildate=#{maildate,jdbcType=VARCHAR}
+   </delete>
+
+   
+</mapper>

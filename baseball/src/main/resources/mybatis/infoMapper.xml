@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper 
+PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="infoMap">
+
+	<select id="selectList" resultType="ivo">
+		select * from player
+	</select>
+
+	<sql id="sch">
+		<where>
+			<if test="what!=null and what!=''">
+
+				${kind} like '%'||#{what}||'%'
+
+			</if>
+		</where>
+	</sql>
+
+	<select id="selectListSch" resultType="ivo" parameterType="isch">
+		select * from player
+		<include refid="sch" />
+
+	</select>
+
+
+	<sql id="sch2">
+	
+		<if test="sss.what!=null and sss.what!=''">
+			${sss.kind} like '%'||#{sss.what}||'%' or
+		</if>
+	</sql>
+
+	<select id="selectListSchList" resultType="ivo" parameterType="isch">
+
+		select * from player
+		<where>
+			<if test="list!=null">
+
+		
+				<foreach collection="list" item="sss">
+			
+					<include refid="sch2" />
+				</foreach>
+
+				1!=1
+			</if>
+
+			<if test="cnt!=null and cnt!=0">
+				<if test="list!=null">
+					or
+				</if>
+			   		<![CDATA[  cnt >= #{cnt}    ]]>
+			</if>
+
+
+		</where>
+	</select>
+
+
+	<select id="selectDetail" resultType="ivo" parameterType="ivo">
+		select * from player where playerId = #{playerId}
+	</select>
+
+	<insert id="insertPlayerStatCareer" parameterType="ivo">
+		insert into playerStatCareer
+		(teamId, playerId, playerName, regDate)
+		values
+		(#{teamId}, #{playerId}, #{playerName}, sysdate)
+	</insert>
+
+	<insert id="insertOne" parameterType="ivo"><!-- 선수기본정보입력 -->
+		insert into player
+		(playerId, teamId, status, gun,
+		sysFile, backNum, playerName, position,
+		playerBirth, schoolName, height,
+		weight, country,
+		salary, pitchingHand, battingHand,
+		regDate ) values
+		(#{playerId}, #{teamId}, #{status}, #{gun},
+		#{sysFile},
+		#{backNum}, #{playerName}, #{position},
+		#{playerBirth}, #{schoolName},
+		#{height}, #{weight}, #{country},
+		#{salary}, #{pitchingHand},
+		#{battingHand}
+		, sysdate )
+
+	</insert>
+
+
+	<update id="fileDelete" parameterType="ivo"> 
+	update player set sysFile = null where playerId = #{playerId}
+	</update>
+	<delete id="delete" parameterType="ivo">
+	 delete from player where playerId = #{playerId} </delete>
+	<delete id="modify" parameterType="ivo"> 
+	update player set playerName = #{playerName} where playerId = #{playerId}
+	</delete>
+
+
+
+</mapper>
