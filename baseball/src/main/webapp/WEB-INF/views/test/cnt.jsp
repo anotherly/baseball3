@@ -5,30 +5,31 @@
 <html>
 <head>
 <script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"
-	type="text/javascript"></script>
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" 
+	type="text/javascript" ></script>
+	
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
-<style type="text/css">
-input[type=checkbox] {
-	display: none;
-}
-
-input[type=checkbox]+label {
-	display: inline-block;
-	cursor: pointer;
-	line-height: 22px;
-	padding-left: 22px;
-	background: url(../resources/img/empty.JPG) left/22px no-repeat;
-}
-
-input[type=checkbox]:checked+label {
-	background-image: url(../resources/img/selected.JPG);
-}
-
-input[type=checkbox]:disabled+label {
-	background-image: url(../resources/img/blocked.JPG);
-}
+<style type="text/css">/* 선택가능좌석/ 선택한 좌석/ 선택 불가 좌석 css */
+	input[type=checkbox] {
+		display: none;
+	}
+	
+	input[type=checkbox]+label {
+		display: inline-block;
+		cursor: pointer;
+		line-height: 22px;
+		padding-left: 22px;
+		background: url(../resources/img/empty.JPG) left/22px no-repeat;
+	}
+	
+	input[type=checkbox]:checked+label {
+		background-image: url(../resources/img/selected.JPG);
+	}
+	
+	input[type=checkbox]:disabled+label {
+		background-image: url(../resources/img/blocked.JPG);
+	}
 </style>
 
 <script>
@@ -51,22 +52,21 @@ input[type=checkbox]:disabled+label {
 	function count_ck(obj) {
 		var chkbox = document.getElementsByName("chk");
 		var chkCnt1 = 0;
-		var chkCnt2 = 0;
 		for (var i = 0; i < chkbox.length; i++) {
 			if (chkbox[i].checked) {
-				chkCnt1++; //기존에 디비에있던 놈 추가하기
+				chkCnt1++; //기존 DB에 저장되어있는 좌석의 갯수를 구해서 더한다.
 			}
 		}
 
-		if ((chkCnt1) == "${param.cnt}") {
+		if ((chkCnt1) == "${param.cnt}") { 
 			$(":submit:not(:checked)").removeAttr("disabled", false);
 		} else if ((chkCnt1) < "${param.cnt}") {
 			$(":submit").attr("disabled", true);
 		} else if ((chkCnt1) > "${param.cnt}") {
 			alert("선택가능한 좌석개수를 초과하였습니다.");
 			obj.checked = false;
-			return false;
-		}
+			return false; 
+		} //좌석 선택갯수로 다음으로 넘어가는 버튼을 활성/비활성화.
 
 		/* 		if((chkCnt1)=="${param.cnt}"){
 		 $(":submit:not(:checked)").removeAttr("disabled", false);
@@ -78,22 +78,30 @@ input[type=checkbox]:disabled+label {
 
 	}
 </script>
-
 </head>
 <body>
-	${param.stadium }
+		 ${param.stadium }
 	<br> ${param.seat}
+	
+	<!-- VIP좌석 - 15000원 / 
+		R-1/2 - 12000원 / 
+		S-1/2 - 10000원 / 
+		A-1/2 - 8000원 -->
+	
 	<br> ${param.cnt }
-	<br>
-
-	<form action="checkTest" method="post">
+	<form action="checkTest" method="post"> <!-- checkTest로 이동 -->
+		<c:set value="${param.seat eq 'b1'?15000:
+				param.seat eq 'b2' or param.seat eq 'b3'?12000:
+				param.seat eq 'b4' or param.seat eq 'b5'?10000:8000}" var="price"/>
+			
+		<input type="text" value="${price}" name="price" /> 
 		<input type="hidden" value="${param.match_year}" name="match_year" /> 
 		<input type="hidden" value="${param.match_month}" name="match_month" /> 
-			<input type="hidden" value="${param.match_day}" name="match_day" /> 
-			<input type="hidden" value="${param.user_id }" name="user_id" /> 
-			<input type="hidden" value="${param.stadium }" name="stadium" /> 
-			<input type="hidden" value="${param.cnt }" name="cnt" /> 
-			<input type="hidden" value="${param.seat }" name="seat" />
+		<input type="hidden" value="${param.match_day}" name="match_day" />
+		<input type="hidden" value="${param.userid }" name="userid" /> 
+		<input type="hidden" value="${param.stadium }" name="stadium" /> 
+		<input type="hidden" value="${param.cnt }" name="cnt" /> 
+		<input type="hidden" value="${param.seat }" name="seat" />
 		<table>
 
 			<c:forEach begin="0" end="9" var="j" varStatus="g">
@@ -109,16 +117,16 @@ input[type=checkbox]:disabled+label {
 							value="${c }${g.index*20+h.index }" /> <label
 							for="${g.index*20+h.index}"> ${c }${g.index*20+h.index }</label></td>
 					</c:forEach>
-				</tr>
+				</tr> <!-- 10행 20열 좌석 화면단에 뿌려주기 -->
 			</c:forEach>
-			<%-- 							${filled.listt}${filled.line} --%>
-
-<tr><td>
-
-		</td></tr>
+				<tr>
+					<td>
+					</td>
+				</tr>
 			<c:forEach items="${data.dd}" var="filled">
 				<c:set var="asd" value="${filled.listt }${filled.line }" />
-				<script>
+				
+				<script> /* 해당 일자,구장, 좌석 정보가 같으면 버튼 비활성하 */
 					var checked = document.getElementsByName("chk");
 					for (var i = 0; i < 200; i++) {
 						if (checked[i].value == "${asd}"

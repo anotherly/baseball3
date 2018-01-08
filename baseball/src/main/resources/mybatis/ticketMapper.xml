@@ -7,23 +7,36 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		
 		<foreach item="item" index="index" collection="reallist" open="INSERT ALL "
 			separator=" " close="SELECT * FROM DUAL">
-			into ticket2(ticketinfo,listt,stadium,seat,line,paid,user_id,match_year,match_month,match_day) values (
+			into ticket3(ticketinfo,listt,stadium,seat,line,userid,match_year,match_month,match_day,price,pay_date,paid) values (
 			#{item.ticketinfo,jdbcType=VARCHAR},#{item.listt,jdbcType=VARCHAR},#{item.stadium,jdbcType=VARCHAR},
-			#{item.seat,jdbcType=VARCHAR},#{item.line,jdbcType=VARCHAR},0,#{user_id,jdbcType=VARCHAR},
-			#{match_year,jdbcType=INTEGER},#{match_month,jdbcType=INTEGER},#{match_day,jdbcType=INTEGER})
-		</foreach>
+			#{item.seat,jdbcType=VARCHAR},#{item.line,jdbcType=VARCHAR},#{userid,jdbcType=VARCHAR},
+			#{match_year,jdbcType=INTEGER},#{match_month,jdbcType=INTEGER},#{match_day,jdbcType=INTEGER},#{item.price,jdbcType=INTEGER},sysdate,1)
+		</foreach> 	
 
 	</insert>
-	
-	<insert id="payment" parameterType="ticketReservation">
-		insert into ticketres (user_id, stadium, user_name, user_phone, money,payday) values (
-		#{user_id,jdbcType=VARCHAR},#{stadium,jdbcType=VARCHAR},#{user_name,jdbcType=VARCHAR},
-		#{user_phone,jdbcType=VARCHAR},#{money,jdbcType=VARCHAR}, SYSDATE
+	<!-- <insert id="payment" parameterType="ticketReservation">
+		insert into ticketres (userid, stadium, user_name, user_phone, money) values (
+		#{userid,jdbcType=VARCHAR},#{stadium,jdbcType=VARCHAR},#{user_name,jdbcType=VARCHAR},
+		#{user_phone,jdbcType=VARCHAR},#{money,jdbcType=VARCHAR}
 		)
-	</insert>
+	</insert> -->
 	
-	<update id="comfirm" parameterType="ticketReservation">
-		update ticket2 set paid = 1 where user_id = #{user_id,jdbcType=VARCHAR}
+	<!-- <update id="paycheck" parameterType="ticketinformation">
+		
+		<foreach item="item" index="index" collection="reallist" open="INSERT ALL "
+			separator=" " close="SELECT * FROM DUAL">
+			into ticket2(ticketinfo,listt,stadium,seat,line,paid,userid,match_year,match_month,match_day,price) values (
+			#{item.ticketinfo,jdbcType=VARCHAR},#{item.listt,jdbcType=VARCHAR},#{item.stadium,jdbcType=VARCHAR},
+			#{item.seat,jdbcType=VARCHAR},#{item.line,jdbcType=VARCHAR},0,#{userid,jdbcType=VARCHAR},
+			#{match_year,jdbcType=INTEGER},#{match_month,jdbcType=INTEGER},#{match_day,jdbcType=INTEGER},#{price,jdbcType=INTEGER})
+		</foreach>
+
+	</update> -->
+	
+	<update id="cancel" parameterType="ticketinformation">
+		update ticket3 set paid = 0 
+		where  ticketinfo = #{ticketinfo} 
+		and match_day = #{match_day}
 	</update>
 	
 <!-- 	<select id="selectform" resultType="ticketinformation">
@@ -31,12 +44,12 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		year = #{year,jdbcType=VARCHAR} and month = #{month,jdbcType=VARCHAR} and day = #{day,jdbcType=VARCHAR}
 	</select>
  -->	
- <select id="selectform" resultType="ticketinformation">
-		select * from ticket2 where paid = 1
+ 	<select id="selectform" resultType="ticketinformation">
+		select * from ticket3 where paid = 1 
 	</select>
-
-	<delete id="delete" parameterType="ticketinformation">
-		delete from ticket2 where stadium = #{stadium,jdbcType=VARCHAR}
-	</delete>
+	
+	 <select id="selectList" parameterType="mem" resultType="ticketinformation">
+		select * from ticket3 where userid = #{userid,jdbcType=VARCHAR} ORDER BY PAY_DATE DESC
+	</select>
 
 </mapper>

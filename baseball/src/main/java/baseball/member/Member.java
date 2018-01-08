@@ -13,6 +13,7 @@ import baseball.controller.SubControll;
 import baseball.member.model.MemberRepository;
 import baseball.member.model.MemberVo;
 import baseball.model.PathData;
+import baseball.ticket.model.TicketVo;
 
 @Service
 public class Member implements SubControll {
@@ -24,15 +25,15 @@ public class Member implements SubControll {
 	MemberRepository dao;
 
 	MemberVo vo;
+	TicketVo tvo;
 
 	@Override
 	public void execute() {
-		System.out.println("+++++++++++++++++멤버클래스 진입성공:" + data);
-		
-		vo = (MemberVo) data.getDd();
-		System.out.println("멤버vo의 vo값: " + vo);
-//		System.out.println("고정 멤버 mvo의 vo값: " + data.getMvo());
-		
+		if(data.getCate2().equals("reserve")) {
+			tvo = (TicketVo) data.getDd();
+		}else {
+			vo = (MemberVo) data.getDd();
+		}
 		switch (data.getService()) {
 
 //		case "memberList":
@@ -40,13 +41,11 @@ public class Member implements SubControll {
 //			break;
 //			
 		case "detail":
-			System.out.println("케이스 멤버디테일");
 			detail(vo);
 			break;
 			
 		case "modify":
-			System.out.println("케이스 멤버디테일");
-			modify(vo);
+			detail(vo);
 			break;
 			
 		case "deleteReg":
@@ -64,18 +63,33 @@ public class Member implements SubControll {
 		case "join":
 			insert();
 			break;
+			
+			
+		case "reservedList":
+			list();
+			break;
+		
+		case "cancel":
+			cancel();
+			break;
+			
 		}
 	}
 
-	public void detail(MemberVo vo) {
-		System.out.println("디테일에서 받아온 vo의 값 : "+vo);
-		MemberVo fvo = dao.detail(vo);
-		System.out.println(fvo);
-		data.setDd(fvo);
-	}
-
 	public void list() {
-		data.setDd(dao.list());
+
+		data.setDd(dao.reservedList(vo));
+
+	}
+	public void cancel() {
+		dao.cancel(tvo);
+		data.setRedirect(true);
+		data.setPath("redirect:reservedList");
+	}
+	
+	public void detail(MemberVo vo) {
+		MemberVo fvo = dao.detail(vo);
+		data.setDd(fvo);
 	}
 
 	public void delete(MemberVo vo) {
@@ -94,14 +108,10 @@ public class Member implements SubControll {
 	}
 
 	public void insert() {
-		System.out.println("멤버의 인서트의 vo:"+vo);
-		System.out.println("data.getRequest():"+data.getRequest());
 		fileupload(vo, data.getRequest());
 		dao.insert(vo);
 		data.setRedirect(true);
 		data.setPath("redirect:../../login/loginSub/first");
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("title","회원가입에 성공하셨습니다 축하합니다!");
 	}
 
 	public void modify(MemberVo vo) {
@@ -109,18 +119,10 @@ public class Member implements SubControll {
 	}
 
 	void modifyReg(MemberVo vo) {
-		System.out.println("멤버 클래스의 모디파이 메소드 진입");
 		String url = "redirect:memberFail";
-		
-		vo.setOriname(vo.getFile().getOriginalFilename());
-		vo.setSysname(vo.getFile().getOriginalFilename());
-		vo.setGrade("user");
 		if (dao.modify(vo)) {// 수정했을때 해당 비밀번호의 회원이 존재한다면
-			System.out.println("모디파이 맵 실행시 vo객체가 존재한다면");
 			fileupload(vo, data.getRequest());
 			url = "redirect:detail?userid=" + vo.getUserid();
-			data.setDd(vo);
-//			data.setMvo(vo);
 		}
 		data.setRedirect(true);
 		data.setPath(url);
@@ -129,14 +131,14 @@ public class Member implements SubControll {
 	public void fileupload(MemberVo vo, HttpServletRequest request) {
 		// 파일 업로드 메소드 !!!!!!!!!!!!!! upfile = 파일정보,
 		// request = 업로드할 폴더정보
-		System.out.println("파일업로드 메소드 진입성공");
-		FileOutputStream fos;
-		vo.setOriname(vo.getFile().getOriginalFilename());
-		vo.setSysname(vo.getFile().getOriginalFilename());
-		System.out.println("파일의 오리네임 : "+vo.getFile().getOriginalFilename());
+		
 		try {
+			FileOutputStream fos;
+			vo.setOriname(vo.getFile().getOriginalFilename());
+			vo.setSysname(vo.getOriname());
+			
 			String outPath = request.getRealPath("/resources/up");
-			outPath = "C:\\FINAL\\baseball\\src\\main\\webapp\\resources\\memberPhoto";
+			outPath = "C:\\FINAL\\baseball3\\baseball\\src\\main\\webapp\\resources\\memberPhoto";
 			String realPath = outPath + "\\" + vo.getFile().getOriginalFilename();
 			File file = new File(realPath);
 			if (file.exists()) {
@@ -166,16 +168,15 @@ public class Member implements SubControll {
 	void fileDelete(MemberVo vo) { // 파일삭제하기!
 
 		String fileName = dao.detail(vo).getSysname();
-		System.out.println(fileName);
-
 		if (fileName != null && !fileName.equals("") && !fileName.equals("null")) {
 			System.out.println("지우자!");
 			File ff = new File(
-					"C:\\FINAL\\baseball\\src\\main\\webapp\\resources\\memberPhoto" + fileName);
+					"C:\\FINAL\\baseball3\\baseball\\src\\main\\webapp\\resources\\" + fileName);
 			ff.delete();
 			dao.fileDelete(vo); // 수정에서 파일삭제!!
 		}
-
+		data.setRedirect(true);
+		data.setPath("redirect:modify?userid=" + vo.getUserid());
 	}
 
 }

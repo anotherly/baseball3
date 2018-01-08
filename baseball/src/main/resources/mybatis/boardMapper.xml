@@ -22,35 +22,54 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
    		select * from baseballboard <include refid="cate"/>
    		
    </select>
-	 
+	  
 	
 	<select id="selectDetail" resultType="boa" parameterType="boa">
-	select * from baseballboard where id = #{id}
+	select * from baseballboard where boardid = #{boardid}
 	</select> 	
 	
 	<insert id="insertOne" parameterType="boa">
-	<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
-	   		select max(id)+1 from baseballboard
+	<selectKey keyProperty="boardid" order="BEFORE" resultType="java.lang.Integer">
+	   		select max(boardid)+1 from baseballboard
 	   </selectKey>
 	insert into baseballboard (cnt,
-	title, content,category1, userid, id, 
-	oriname, sysname) values
-	 (-1, #{title},#{content}, #{category1}, 'asd', #{id},#{oriname},#{sysname})
+	title, content,category1, userid, boardid, 
+	oriname, sysname,regdate,moddate, gid) values
+	 (#{cnt,jdbcType=INTEGER}, #{title},#{content}, #{category1}, #{userid,jdbcType=VARCHAR}, 
+	 #{boardid},#{oriname,jdbcType=VARCHAR},#{sysname,jdbcType=VARCHAR},sysdate,sysdate,#{boardid})
 	</insert>
 	
-	<!-- 
-	<delete id="delete" parameterType="boa">
-   		delete from baseballboard where id = #{id}
+	<select id="selectTotal" resultType="java.lang.Integer" parameterType="String">
+         select count(*) from baseballboard where category1 = #{category1}
+   </select>
+   
+    <select id="typelist" resultType="boa"  parameterType="boa2"  >
+         
+         <![CDATA[ select * from
+      (select rownum rnum, t1.* from 
+      (select * from baseballboard where category1 = #{cate2} order by boardid) t1)
+        where rnum >= #{startNum} and rnum<= #{endNum} ]]>
+           
+   </select>
+   
+    <delete id="modify" parameterType="boa">
+   		update baseballboard set title = #{title,jdbcType=VARCHAR} , content = #{content,jdbcType=VARCHAR} , oriname = #{oriname,jdbcType=VARCHAR},
+   		sysname = #{sysname,jdbcType=VARCHAR} , moddate = sysdate where boardid = #{boardid}
+   </delete>
+	   
+   <update id="fileDelete" parameterType="boa">
+   		update baseballboard set sysname = null, oriname=null where boardid = #{boardid}
+   </update>
+	
+	<delete id="boarddelete" parameterType="boa">
+   		delete from baseballboard where boardid = #{boardid} and userid = #{userid}
    </delete>
    
+	<!-- 
     <select id="idPwChk" resultType="boa" parameterType="boa">
    		select * from baseballboard where id = #{id} and password = #{password}
    </select>
-   
-   <update id="fileDelete" parameterType="boa">
-   		update baseballboard set sysname = null, oriname=null where id = #{id}
-   </update>
-	
+
    <delete id="modify" parameterType="boa">
    		update baseballboard set nick = #{nick} , name = #{name} , 
    		oriname = #{oriname}, sysname = #{sysname} , birth = #{birth} , address = #{address} ,

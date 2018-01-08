@@ -8,10 +8,9 @@
 <script type="text/javascript">
 		
 	function closewindow(){
- 		if(confirm('현재페이지를 닫으시겠습니까?')){
+ 		alert('예매가 완료되었습니다.')
 			self.close();
 			window.opener.close();
- 		}
 	}
 	closewindow()
 </script>

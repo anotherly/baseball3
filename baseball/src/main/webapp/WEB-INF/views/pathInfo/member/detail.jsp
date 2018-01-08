@@ -29,7 +29,7 @@
 			</td></tr>
 			<tr><td colspan="2" align="center">
 			<a href="modify?userid=${data.dd.userid }">수정하기</a>
-			<a href="delete?userid=${data.dd.userid }">삭제하기</a></td>
+			<a href="delete?userid=${data.dd.userid }">탈퇴하기</a></td>
 
 		</table>
 	</body>

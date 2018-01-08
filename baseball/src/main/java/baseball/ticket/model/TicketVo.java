@@ -1,6 +1,7 @@
 package baseball.ticket.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
 
@@ -13,12 +14,31 @@ public class TicketVo {
 	String listt;
 	String line;
 	Integer paid;
-	String user_id;
+	String userid;
 	Integer match_year, match_month, match_day;
+	Integer price;
+	Date pay_date;
 	
 	ArrayList<TicketVo> reallist;
 
 	
+	
+
+	public Date getPay_date() {
+		return pay_date;
+	}
+
+	public void setPay_date(Date pay_date) {
+		this.pay_date = pay_date;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
 
 	public Integer getMatch_year() {
 		return match_year;
@@ -44,13 +64,7 @@ public class TicketVo {
 		this.match_day = match_day;
 	}
 
-	public String getUser_id() {
-		return user_id;
-	}
 
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
-	}
 
 	public Integer getPaid() {
 		return paid;
@@ -109,12 +123,22 @@ public class TicketVo {
 		this.reallist = reallist;
 	}
 
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
 	@Override
 	public String toString() {
 		return "TicketVo [stadium=" + stadium + ", seat=" + seat + ", ticketinfo=" + ticketinfo + ", listt=" + listt
-				+ ", line=" + line + ", paid=" + paid + ", user_id=" + user_id + ", match_year=" + match_year
-				+ ", match_month=" + match_month + ", match_day=" + match_day + ", reallist=" + reallist + "]";
+				+ ", line=" + line + ", paid=" + paid + ", userid=" + userid + ", match_year=" + match_year
+				+ ", match_month=" + match_month + ", match_day=" + match_day + ", price=" + price + ", reallist="
+				+ reallist + "]";
 	}
+
 
 	
 	

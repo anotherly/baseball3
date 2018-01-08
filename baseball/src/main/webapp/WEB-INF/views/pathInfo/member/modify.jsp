@@ -54,7 +54,7 @@
 				<td>사진</td>
 				<td><c:choose>
 						<c:when test="${data.dd.sysname!=null && data.dd.sysname!='null'}">
-							<input type="hidden" name="file" value="${data.dd.sysname }" />
+							<input type="hidden" name="sysname" value="${data.dd.sysname }" />
 							<a href="javascript:fileDelete();">사진 삭제</a>
 						</c:when>
 						<c:otherwise>
@@ -96,12 +96,37 @@
 			<tr>
 				<td>선호구단</td>
 				<td colspan="2"><select name="preferTeam">
-						<option value=lgtwins
+						<option value="lgtwins"
 							<c:if test="${data.dd.preferTeam eq 'lgtwins' }">
                               <c:out value="selected" /></c:if>>LG트윈스</option>
-						<option value=ncdinos
+						<option value="ncdinos"
 							<c:if test="${data.dd.preferTeam eq 'ncdinos' }">
                               <c:out value="selected" /></c:if>>NC다이노스</option>
+                        <option value="kiatigers"
+							<c:if test="${data.dd.preferTeam eq 'kiatigers' }">
+                              <c:out value="selected" /></c:if>>기아타이거즈</option>
+                        <option value="samsunglions"
+							<c:if test="${data.dd.preferTeam eq 'samsunglions' }">
+                              <c:out value="selected" /></c:if>>삼성라이온즈</option>
+                        <option value="doosanbears"
+							<c:if test="${data.dd.preferTeam eq 'doosanbears' }">
+                              <c:out value="selected" /></c:if>>두산베어스</option>
+                        <option value=hanhwaeagles
+							<c:if test="${data.dd.preferTeam eq 'hanhwaeagles' }">
+                              <c:out value="selected" /></c:if>>한화이글스</option>
+                        <option value=ktwiz
+							<c:if test="${data.dd.preferTeam eq 'ktwiz' }">
+                              <c:out value="selected" /></c:if>>KT위즈</option>
+                              						<option value=ncdinos
+							<c:if test="${data.dd.preferTeam eq 'ncdinos' }">
+                              <c:out value="selected" /></c:if>>NC다이노스</option>
+                              						<option value=ncdinos
+							<c:if test="${data.dd.preferTeam eq 'ncdinos' }">
+                              <c:out value="selected" /></c:if>>NC다이노스</option>
+                              						<option value=ncdinos
+							<c:if test="${data.dd.preferTeam eq 'ncdinos' }">
+                              <c:out value="selected" /></c:if>>NC다이노스</option>
+                              
 				</select></td>
 			</tr>
 

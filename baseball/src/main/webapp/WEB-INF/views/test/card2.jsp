@@ -3,7 +3,7 @@
 
 	<form action="card3" method="post">
 	<!-- 성공적! -->
-		<input type="hidden" value="${param.user_id }" name="user_id"/>
+		<input type="hidden" value="${param.userid }" name="userid"/>
 	<input type="hidden" value="${param.user_name }" name="user_name"/>
 	<input type="hidden" value="${param.user_phone}" name="user_phone"/>
 	<input type="hidden" value="${param.money }" name="money"/>
@@ -11,6 +11,7 @@
 			<input type="hidden" value="${param.match_year}" name="match_year"/>
 <input type="hidden" value="${param.match_month}" name="match_month"/>
 <input type="hidden" value="${param.match_day}" name="match_day"/>
+			<input type="hidden" value="${param.price }" name="price"/>
 	<!-- 노터치! -->	
 		<table border="1">
 			<tr>

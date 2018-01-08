@@ -28,7 +28,7 @@
 	</tr>
 	<tr>
 		<td colspan="4">
-		<a href="http://localhost:8080/baseball/pathInfo/home/notice/first">
+		<a href="../../../../../../baseball/pathInfo/home/notice/first">
 				<img src="../../../resources/homePhoto/kbologo.png" width="100%"
 				height=140>
 		</a></td>

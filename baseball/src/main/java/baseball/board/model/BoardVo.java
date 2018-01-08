@@ -1,5 +1,7 @@
 package baseball.board.model;
 
+import java.sql.Date;
+
 import org.apache.ibatis.type.Alias;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -7,14 +9,36 @@ import org.springframework.web.multipart.MultipartFile;
 public class BoardVo {
 	
 	MultipartFile file;
-	int cnt, id;
-	String title, content, userid, regdate, category1, category2, receiver, oriname, sysname;
+	int boardid,gid;
+	int cnt = -1;
+	String title, content, userid, category1, category2, receiver, oriname, sysname;
 	
-	public void setId(int id) {
-		this.id = id;
+	Date Moddate, regdate;
+	
+	
+	public Date getRegdate() {
+		return regdate;
 	}
-	public Integer getId() {
-		return id;
+	public int getGid() {
+		return gid;
+	}
+	public void setGid(int gid) {
+		this.gid = gid;
+	}
+	public Date getModdate() {
+		return Moddate;
+	}
+	public void setModdate(Date moddate) {
+		Moddate = moddate;
+	}
+	public void setRegdate(Date regdate) {
+		this.regdate = regdate;
+	}
+	public int getBoardid() {
+		return boardid;
+	}
+	public void setBoardid(int boardid) {
+		this.boardid = boardid;
 	}
 	public MultipartFile getFile() {
 		return file;
@@ -46,18 +70,6 @@ public class BoardVo {
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
-	public String getRegdate() {
-		return regdate;
-	}
-	public void setRegdate(String regdate) {
-		this.regdate = regdate;
-	}
-	public String getCategory1() {
-		return category1;
-	}
-	public void setCategory1(String category1) {
-		this.category1 = category1;
-	}
 	public String getCategory2() {
 		return category2;
 	}
@@ -82,12 +94,11 @@ public class BoardVo {
 	public void setSysname(String sysname) {
 		this.sysname = sysname;
 	}
-	@Override
-	public String toString() {
-		return "BoardVo [file=" + file + ", id=" + id + ", cnt=" + cnt + ", title=" + title + ", content=" + content
-				+ ", userid=" + userid + ", regdate=" + regdate + ", category1=" + category1 + ", category2="
-				+ category2 + ", receiver=" + receiver + ", oriname=" + oriname + ", sysname=" + sysname + "]";
+	public String getCategory1() {
+		return category1;
 	}
-	
+	public void setCategory1(String category1) {
+		this.category1 = category1;
+	}
 	
 }

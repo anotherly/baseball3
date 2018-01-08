@@ -6,23 +6,90 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.type.Alias;
 import org.springframework.stereotype.Component;
-
-import baseball.member.model.MemberVo;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Alias("boa2")
 @Component
 public class PathData {
 
 	String cate1, cate2, service, path, serviceTemp, cate1Temp;
-	
-	Object dd,dd2;
+
+	Object dd, dd2;
 
 	ArrayList<Menu> topMenu, subMenu, topMenu2, subMenu2, loginMenu, managerMenu;
 
 	HttpServletRequest request;
+
+	int limit = 10, pageLimit = 5;
 	
-	boolean redirect;//현재 로그인한 사용자가 관리자인지 아닌지 판단여부
+	int nowPage = 1;
 	
+	int total;
+
+	
+	
+	public int getStartPage() {
+		return (nowPage - 1) / pageLimit * pageLimit + 1;
+	}
+
+	public int getEndPage() {
+		int res = getStartPage() + pageLimit - 1;
+		if (res > getTotalPage())
+			res = getTotalPage();
+		return res;
+	}
+
+	public int getTotalPage() {
+
+		int res = total / limit;
+		if (total % limit != 0)
+			res++;
+
+		return res;
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
+	}
+
+	public int getStartNum() {
+		return (nowPage - 1) * limit + 1;
+	}
+
+	public int getEndNum() {
+		return nowPage * limit;
+	}
+
+	public int getNowPage() {
+		return nowPage;
+	}
+
+	public void setNowPage(int nowPage) {
+		this.nowPage = nowPage;
+	}
+
+	public int getLimit() {
+		return limit;
+	}
+
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
+
+	public int getPageLimit() {
+		return pageLimit;
+	}
+
+	public void setPageLimit(int pageLimit) {
+		this.pageLimit = pageLimit;
+	}
+
+	boolean redirect;// 현재 로그인한 사용자가 관리자인지 아닌지 판단여부
+
 	public Object getDd2() {
 		return dd2;
 	}
@@ -128,13 +195,13 @@ public class PathData {
 	}
 
 	public String getCate1() {
-//		System.out.println("패스데이타 클래스 의 getCate1값 : "+cate1);
+		// System.out.println("패스데이타 클래스 의 getCate1값 : "+cate1);
 		return cate1;
 	}
 
 	public void setCate1(String cate1) {
 		this.cate1 = cate1;
-//		System.out.println("패스데이타 클래스 의 setCate1값 : "+cate1);
+		// System.out.println("패스데이타 클래스 의 setCate1값 : "+cate1);
 	}
 
 	public String getCate2() {
@@ -146,7 +213,7 @@ public class PathData {
 	}
 
 	public String getService() {
-//		System.out.println("패스데이터의 getservice : "+service);
+		// System.out.println("패스데이터의 getservice : "+service);
 		return service;
 	}
 

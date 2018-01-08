@@ -9,7 +9,7 @@
 </head>
 <body>
 	<form action="insert" method="post" enctype="multipart/form-data">
-			<input type="hidden" name="userid" >
+			<input type="hidden" value="${loginVo.name }" name="userid" >
 			<table border="1">
 				<tr>
 				<td>力格</td>
@@ -17,7 +17,7 @@
 			</tr>
 			<tr>
 				<td>郴侩</td>
-				<td><input type="text" name="content" ></td>
+				<td><textarea name="content" cols="40" rows="8"></textarea></td>
 			</tr>
 			<tr>
 				<td>颇老梅何</td>

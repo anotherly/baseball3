@@ -1,36 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 <script type="text/javascript">
-	function complete(){
+/* 	function complete(){
  
-		frm.action = "payment";
+		frm.action = "insertticket";
 		frm.submit();
 		 	alert('결제가 완료되었습니다');
-		};
-		
-	function closewindow(){
+		 	self.close();
+			window.opener.close();
+	};
+		 */
+	/* function closewindow(){
  		if(confirm('현재페이지를 닫으시겠습니까?')){
 			self.close();
 			window.opener.close();
  		}
+	} */
+	
+	function goSubmit() {
+	    window.opener.name = "parent"; // 부모창의 이름 설정
+	    document.frm.target = "parent"; // 타켓을 부모창으로 설정
+ 	    document.frm.action = "insertticket"; 
+	    document.frm.submit();
+	
+	    self.close();
 	}
-</script>
+	
+</script><!-- 
+window.onload = function() {
+		alert("예매가 완료되었습니다."); 
+	}; -->
 </head>
 <body>
-	<form action="payment" method="post" name="frm">
-		<input type="hidden" value="${param.user_id }" name="user_id"/>
-	<input type="hidden" value="${param.user_name }" name="user_name"/>
-	<input type="hidden" value="${param.user_phone}" name="user_phone"/>
-	<input type="hidden" value="${param.money }" name="money"/>
-	<input type="hidden" value="${param.stadium }" name="stadium" />
-			<input type="hidden" value="${param.match_year}" name="match_year"/>
-<input type="hidden" value="${param.match_month}" name="match_month"/>
-<input type="hidden" value="${param.match_day}" name="match_day"/>
+	<form action="" method="post" name="frm">
+		<input type="hidden" value="${param.userid }" name="userid"/>
+		<input type="hidden" value="${param.user_name }" name="user_name"/>
+		<input type="hidden" value="${param.user_phone}" name="user_phone"/>
+		<input type="hidden" value="${param.money }" name="money"/>
+		<input type="hidden" value="${param.stadium }" name="stadium" />
+		<input type="hidden" value="${param.match_year}" name="match_year"/>
+		<input type="hidden" value="${param.match_month}" name="match_month"/>
+		<input type="hidden" value="${param.match_day}" name="match_day"/>	
+		<input type="hidden" value="${param.price }" name="price"/>
+		
 		<table border=1>
 			<tr>
 				<td>판매자</td>
@@ -55,8 +73,10 @@
 			</tr>
 			<tr align="center">
 				<td colspan="3"><a href="card2">취소</a>
-<a href="javascript:complete()">돌아가즈아~</a></td>
-			</tr>
+<!-- <a href="javascript:complete()">예매완료</a></td>
+ -->	
+ <input type="button" onclick="goSubmit()" value="예매완료">
+ 		</tr>
 		</table>
 	</form>
 </body>

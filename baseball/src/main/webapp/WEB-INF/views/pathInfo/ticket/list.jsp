@@ -16,7 +16,7 @@
 <script type="text/javascript">
 function needlogin(){
       alert("로그인이 필요한 메뉴입니다.");
-      window.location = "../../../../../baseball/pathInfo/login/loginSub/fisrt";
+      window.location = "../../../../../baseball/pathInfo/login/loginSub/first";
   }
 needlogin();
   </script>

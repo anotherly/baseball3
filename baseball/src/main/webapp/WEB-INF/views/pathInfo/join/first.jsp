@@ -35,6 +35,14 @@
 			<td colspan="2"><select name="preferTeam">
 			<option value="lgtwins">LG트윈스</option>
 			<option value="ncdinos">NC다이노스</option>
+			<option value="kiatigers">기아타이거즈</option>
+			<option value="samsunglions">삼성라이온즈</option>
+			<option value="doosanbears">두산베어스</option>
+			<option value="hanhwaeagles">한화이글스</option>
+			<option value="ktwiz">KT위즈</option>
+			<option value="nexenheroes">넥센히어로즈</option>
+			<option value="skwyverns">SK와이번스</option>
+			<option value="lottegiants">롯데자이언츠</option>
 			</select>
 			</td></tr>
 			

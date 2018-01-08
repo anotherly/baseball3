@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import baseball.model.TicketData;
 import baseball.ticket.ResRepository;
-import baseball.ticket.model.TicketResVo;
 import baseball.ticket.model.TicketVo;
 
 @Controller
@@ -26,8 +25,7 @@ public class Ticketcontroller{
 	@Resource
 	TicketData data;
 	
-	TicketVo vo;
-	TicketResVo resvo;
+	TicketVo vo,vo2;
 	
 	String res = "test/test";
 	
@@ -35,9 +33,8 @@ public class Ticketcontroller{
 	@ModelAttribute("data")
 	TicketData data(
 			@PathVariable String service,
-			TicketVo ticketVo, TicketResVo ticketres,
+			TicketVo ticketVo,
 			HttpServletRequest request) {
-
 		
 		data.setRedirect(false);
 
@@ -47,13 +44,11 @@ public class Ticketcontroller{
 		System.out.println(service+" + ");
 		
 		data.setDd(ticketVo);
+		
 		vo = (TicketVo)data.getDd();
 		
-		if(service.equals("payment")) {
-			data.setDd(ticketres);
-			resvo = (TicketResVo)data.getDd();
-		}
-
+		
+		
 		switch (service) {
 			case "list":
 				mapping();
@@ -69,97 +64,102 @@ public class Ticketcontroller{
 			case "checkTest":
 				mapping4();
 				break;
-				
-			case "insertticket":
-				mapping5();
-				break;
 			case "card":
-				mapping6();
+				data.setDd(ticketVo);
+				vo2 = (TicketVo)data.getDd();
+				mapping5();
+				System.out.println(vo2.getReallist());
 				break;
+			case "insertticket":
+				mapping6();
+				System.out.println(vo2.getReallist());
+				break;
+				
 			case "card2":
 				mapping7();
+				System.out.println(vo2.getReallist());
 				break;
 			case "card3":
+			
 				mapping8();
+				System.out.println(vo2.getReallist());
 				break;
-			case "payment":
+/*			case "payment":
 				mapping9();
 				break;
-				
+				*/
+			case "close":
+				close();
+				System.out.println(vo2.getReallist());
+				break;
 		}
 		return data;
 
 	}
-
-
-	
+	String close() {
+		System.out.println(vo2.getReallist());
+		res = "/test/close";
+		return res;
+	}
 	
 	String mapping() {
-		
 		res = "/test/grade";
-		
 		return res;
 	}
 	
 	String mapping2() {
-		
 		res = "test/ticket";
-		
 		return res;
 	}
 	
 
 	String mapping3() {
-		
 		data.setDd(reservation.reserved());
-		
 		res= "test/cnt";
 		return res;
 	}
 	
 	String mapping4() {
 		res = "test/checkTest";
-
 		return res;
 	}
 	
 
 	String mapping5() {
-
-		System.out.println(vo);
-		System.out.println("=================");
-		reservation.insert(vo);
-		
+		System.out.println(vo2.getReallist());
 		res="test/card";
 		return res;
 	}
 	
 	String mapping6() {
-		res = "test/card";
+		System.out.println(vo2.getReallist());
 		System.out.println("매핑6! card!");
+		reservation.insert(vo2);
+		res="test/close";
 		return res;
 	}
 	
 	String mapping7() {
+		System.out.println(vo2.getReallist());
 		res = "test/card2";
 		System.out.println("매핑7! card2!");
 		return res;
 	}
 	
 	String mapping8() {
+		System.out.println(vo2.getReallist());
 		res = "test/card3";
 		System.out.println("매핑8! card3!");
 		return res;
 	}
 
-	String mapping9() {
+	/*String mapping9() {
 		System.out.println("=================");
-		reservation.paymentcomplete(resvo);
-		reservation.comfirmpayment(resvo);
+		reservation.insert(vo);
+		data.setRedirect(true);
+		data.setPath("redirect:close");
 		return res;
-	}
-	
-	
+	}*/
 
 	@RequestMapping
     String ma() {

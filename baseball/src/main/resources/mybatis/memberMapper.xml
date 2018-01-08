@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
    <delete id="modify" parameterType="mem">
    		update baseballmember set nick = #{nick} , name = #{name} , password = #{password},
    		oriname = #{oriname}, sysname = #{sysname} , birth = #{birth} , address = #{address} ,
-   		phone = #{phone} ,receivemail = #{receivemail} ,preferTeam = #{preferTeam}, grade = #{grade} where userid = #{userid}
+   		phone = #{phone} ,receivemail = #{receivemail} ,preferTeam = #{preferTeam} where userid = #{userid}
    </delete>
 	
 	

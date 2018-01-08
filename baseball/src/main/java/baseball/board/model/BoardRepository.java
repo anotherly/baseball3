@@ -18,36 +18,32 @@ public class BoardRepository {
 
 	
 	public List<BoardVo> list(PathData data) {
-		return template.selectList("board.selectList",data);
+		return template.selectList("board.typelist",data);
 	}
 
 	public BoardVo detail(BoardVo vo) {
-		System.out.println("보드 vo의 디테일");
 		return template.selectOne("board.selectDetail",vo);
 	}
 	public void insert(BoardVo vo) {
 		template.insert("board.insertOne",vo);
 	}
-	/*
-	
-	public void delete(BoardVo vo) {
+	 
+	public Integer selectTotal(String vo)
+	   {
+	      return template.selectOne("selectTotal",vo);
+	   }
 
-		template.delete("board.delete",vo);
-	}
-	
-	public BoardVo idPwChk(BoardVo vo)
+	public boolean modify(BoardVo vo)
 	{
-		return template.selectOne("board.idPwChk", vo);
-	}
+		return template.update("board.modify", vo)>0;
+	} 
 	
 	public void fileDelete(BoardVo vo)
 	{
 		template.update("board.fileDelete", vo);
 	} 
 	
-	public boolean modify(BoardVo vo)
-	{
-		return template.update("board.modify", vo)>0;
-	} */
-	
+	public void delete(BoardVo vo) {
+		template.delete("board.boarddelete", vo);
+	}
 }

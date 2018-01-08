@@ -24,11 +24,13 @@ public class ResRepository {
 		template.insert("ticket.payment",vo);
 	}
 
-	public void comfirmpayment(TicketResVo vo) {
-		template.update("ticket.comfirm",vo);
-	}
-	
+
 	public List<String> reserved(){
 		return template.selectList("ticket.selectform");
+	}
+	
+	
+	public List<TicketResVo> reservedList(TicketVo vo) {
+		return template.selectList("ticket.selectList",vo);
 	}
 }

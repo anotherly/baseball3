@@ -7,6 +7,9 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
+import baseball.ticket.model.TicketResVo;
+import baseball.ticket.model.TicketVo;
+
 @Service
 public class MemberRepository {
 	
@@ -48,7 +51,6 @@ public class MemberRepository {
 	} 
 	
 	public boolean modify(MemberVo vo){
-		System.out.println("멤버 레퍼지토리 모디파이");
 		return template.update("mm.modify", vo)>0;
 	} 
 
@@ -70,4 +72,10 @@ public class MemberRepository {
 		return template.selectOne("mm.findPw",vo);
 	}
 	
+	public void cancel(TicketVo vo) {
+		template.update("ticket.cancel", vo);
+	}
+	public List<TicketResVo> reservedList(MemberVo vo) {
+		return template.selectList("ticket.selectList",vo);
+	}
 }
