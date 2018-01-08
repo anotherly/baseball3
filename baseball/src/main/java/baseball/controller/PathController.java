@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import baseball.board.model.BoardVo;
 import baseball.member.model.MemberVo;
@@ -32,8 +31,7 @@ public class PathController {
 	
 	@ModelAttribute("data") // data 라는 이름으로 값을 주고받음 jsp와
 	PathData data(@PathVariable String cate1, @PathVariable String cate2, @PathVariable String service, 
-			@RequestParam(value="nowPage", required=false, defaultValue="1")Integer page,
-			MemberVo memberVo, 
+		MemberVo memberVo, 
 		TicketVo ticketVo, 
 		BoardVo boardVo, 
 		TeamVo teamVo,
@@ -41,6 +39,7 @@ public class PathController {
 		HttpServletRequest request) {
 		System.out.println("@@@@@@@@@@@@@@@@패스컨트롤러 초기진입");
 
+		System.out.println("최초 순수 getDd2 : "+ data.getDd2());
 		System.out.println("최초 순수 데이타 : "+ data.getDd());
 		System.out.println("배열 넣기전 멤버vo값 : "+memberVo);
 		
@@ -59,7 +58,7 @@ public class PathController {
 		data.setCate2(cate2);
 		data.setService(service);
 		data.setRequest(request);
-		data.setNowPage(page);
+
 //		System.out.println("패스컨트롤러의 data - " + data);
 
 		String voName;
@@ -78,16 +77,6 @@ public class PathController {
 				/// 맞으면 data 에 넣음
 			}
 		//로그인 회원가입시 멤버값이나 관리자값을 불러온다
-		}else if(cate1.equals("member")&&cate2.equals("reserve")){
-			for (Object obj : vos) {
-			if(obj.getClass().getName().equals("baseball.ticket.model.TicketVo")) {
-				{
-					System.out.println("cate1:"+cate1);
-					System.out.println("cate2:"+cate2);
-					data.setDd(obj);
-				}
-			}
-		}
 		}else if (cate1.equals("login")){
 			voName = "baseball.member.model.MemberVo";
 			for (Object obj : vos) {
@@ -150,7 +139,7 @@ public class PathController {
 //		subMenu.put("ticket", new ArrayList<>());
 		
 		subMenu.get("member").add(new Menu("membermail","쪽지 리스트","mailList"));
-		subMenu.get("member").add(new Menu("reserve", "예매내역", "reservedList"));
+		subMenu.get("member").add(new Menu("memberticket","예매 현황","ticket"));
 		
 		subMenu.get("board").add(new Menu("boardinfo", "공지사항", "list"));
 		subMenu.get("board").add(new Menu("boardfree", "자유게시판", "list"));

@@ -14,7 +14,7 @@ public class PathData {
 
 	String cate1, cate2, service, path, serviceTemp, cate1Temp;
 
-	Object dd, dd2;
+	Object dd, dd2,dd3,dd4;
 
 	ArrayList<Menu> topMenu, subMenu, topMenu2, subMenu2, loginMenu, managerMenu;
 
@@ -28,6 +28,22 @@ public class PathData {
 
 	
 	
+	public Object getDd3() {
+		return dd3;
+	}
+
+	public void setDd3(Object dd3) {
+		this.dd3 = dd3;
+	}
+
+	public Object getDd4() {
+		return dd4;
+	}
+
+	public void setDd4(Object dd4) {
+		this.dd4 = dd4;
+	}
+
 	public int getStartPage() {
 		return (nowPage - 1) / pageLimit * pageLimit + 1;
 	}
